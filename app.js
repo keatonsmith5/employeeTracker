@@ -15,10 +15,61 @@ connection.connect(function (err) {
 });
 
 //Init function
+function init() {
     //Prompt list of actions (ex. view departments, view roles etc...)
+    inquirer
+    .prompt({
+        name: "action",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View Departments",
+            "View Roles",
+            "View All Employees",
+            "View Employees by Department",
+            "View Employees by Manager",
+            "Add Department",
+            "Add Role",
+            "Add Employee",
+            "Exit"
+        ]
     //Then run a switch case for each function that corresponds to each action
+    }).then(function(answer) {
+        switch (answer.action) {
+            case "View Departments": 
+                viewDepartments();
+                break;
+            case "View Roles": 
+                viewRoles();
+                break;
+            case "View All Employees": 
+                viewAllEmployees();
+                break;
+            case "View Employees by Department": 
+                viewEmployeesByDept();
+                break;
+            case "View Employees by Manager": 
+                viewEmployeesByManager();
+                break;
+            case "Add Department": 
+                addDepartment();
+                break;
+            case "Add Role": 
+                addRole();
+                break;
+            case "Add Employee": 
+                addEmployee();
+                break;
+            case "Exit": 
+                exit();
+                break;
+        }
+    })
+}
+    
 
 //View departments
+
     //query variable
     //connection
 
