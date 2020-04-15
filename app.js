@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "password5",
-  database: "employee_managerDB"
+  database: "employee_trackerDB"
 });
 
 connection.connect(function (err) {
@@ -61,7 +61,7 @@ function init() {
                 addEmployee();
                 break;
             case "Exit": 
-                exit();
+                connection.end();
                 break;
         }
     })
@@ -69,13 +69,20 @@ function init() {
     
 
 //View departments
-
+function viewDepartments() {
     //query variable
+    const query = "SELECT * FROM departments";
     //connection
-
-    //run init
-
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        //run init
+        init();
+    }) 
+}
+    
 //View roles
+
     //query variable
     //connection
 
