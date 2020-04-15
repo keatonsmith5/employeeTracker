@@ -82,11 +82,19 @@ function viewDepartments() {
 }
     
 //View roles
-
+function viewRoles() {
     //query variable
+    const query = "SELECT * FROM roles";
     //connection
-
-    //run init
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        //run init
+        init();
+    })
+    
+}
+    
 
 //View employees by department
     //query for list of all departments
