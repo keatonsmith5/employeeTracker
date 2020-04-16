@@ -35,26 +35,26 @@ INSERT INTO employee_trackerDB.roles (role_id, role_title, role_salary, departme
 VALUES (8, "Sales Manager", 60000, 4, 0);
 
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (1, "Johnny", "Drama", 1, 1);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (1, "Johnny", "Drama", 1, NULL);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (2, "Turtle", "Neck", 2, Null);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (2, "Turtle", "Neck", 2, 1);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (3, "Vincent", "Chase", 3, 2);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (3, "Vincent", "Chase", 3, NULL);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (4, "Eric", "Murphy", 4, Null);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (4, "Eric", "Murphy", 4, 3);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (5, "Jerry", "Seinfeld", 5, 3);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (5, "Jerry", "Seinfeld", 5, NULL);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (6, "George", "Costanza", 6, Null);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (6, "George", "Costanza", 6, 5);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (7, "Elaine", "Benes", 7, 4);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (7, "Elaine", "Benes", 7, NULL);
 
-INSERT INTO employee_managerdb.employees (employee_id, first_name, last_name, role_id, manager_id)
-VALUES (8, "Cosmo", "Kramer", 8, Null);
+INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
+VALUES (8, "Cosmo", "Kramer", 8, 7);

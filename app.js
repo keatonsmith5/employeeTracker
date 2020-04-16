@@ -84,46 +84,106 @@ function viewDepartments() {
 //View roles
 function viewRoles() {
     //query variable
-    const query = "SELECT * FROM roles";
+    const query = "SELECT role_id, role_title FROM roles";
     //connection
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
         //run init
         init();
-    })
-    
+    })  
 }
-    
+
+//View All Employees
+function viewAllEmployees() {
+    //query variable
+    const query = "SELECT employees.employee_id, employees.first_name, employees.last_name, roles.role_title, departments.department_name FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id LEFT JOIN departments ON roles.department_id = departments.department_id";
+    //connection
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        //run init
+        init();
+    });
+}         
 
 //View employees by department
+function viewEmployeesByDept() {
+    let array = []
     //query for list of all departments
-    //push them into an array
+    const query = "SELECT department_id AS value, department_name AS name FROM departments"
     //connection
-
-    //prompt which dep
-    //choices are the array from above
-    //then query for the specific employees
-
-    //run init
+    connection.query(query, (err, res) => {
+        if(err) throw err;
+        //push them into an array
+        array = JSON.parse(JSON.stringify(res));
+        //prompt which dep
+        inquirer
+            .prompt({
+                name: "department",
+                type: "list",
+                message: "For which department do you want to view the employees?",
+                choices: array
+            //then query for the specific employees
+            }).then(function (answer) {
+                connection.query(`SELECT employees.employee_id, employees.first_name, employees.last_name, roles.role_title, departments.department_name FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id LEFT JOIN departments ON roles.department_id = departments.department_id WHERE departments.department_id = ${answer.department}`, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                    init();
+                });
+            });
+    });
+}
 
 //View employees by manager
+function viewEmployeesByManager() {
+    let array = []
     //query for list of all managers
-    //push into an array
+    const query = "SELECT employees.employee_id AS value, CONCAT(employees.first_name, ' ', employees.last_name) AS name FROM employees INNER JOIN roles ON employees.role_id = roles.role_id WHERE roles.manager = 1"
     //connection
-
-    //prompt which manager
-    //choices are the array
-    //then query for the specific employees in that department
-
-    //run init
+    connection.query(query, (err, res) => {
+        if(err) throw err;
+        //push them into an array
+        array = JSON.parse(JSON.stringify(res));
+        //prompt which manager
+        inquirer
+            .prompt({
+                name: "manager",
+                type: "list",
+                message: "For which manager do you want to view the employees?",
+                choices: array
+            //then query for the specific employees under that manager
+            }).then(function (answer) {
+                connection.query(`SELECT employees.employee_id, employees.first_name, employees.last_name FROM employees WHERE manager_id = ${answer.manager}`, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                    init();
+                });
+            });
+    });
+}
 
 //Add department
+function addDepartment() {
     //prompt name of new department
-    //then query that inserts that department into database
-
-    //run init
-
+    inquirer
+        .prompt({
+            name: "name",
+            type: "input",
+            message: "What is the name of the department you want to add?"
+        //then query that inserts that department into database
+        }).then(function(answer) {
+            const query = "INSERT INTO departments (department_name) VALUES (?)";
+            connection.query(query, answer.name, (err, res) => {
+                if (err) throw err;
+                if(res.affectedRows > 0) {
+                    console.log(res.affectedRows + " department added successfully added!");
+                }
+                init();
+            });
+        });
+}
+    
 //Add role
     //query for departments
     //push departments into array
