@@ -185,17 +185,53 @@ function addDepartment() {
 }
     
 //Add role
+function addRole() {
+    let array = [];
     //query for departments
-    //push departments into array
+    const query = "SELECT department_id AS value, department_name AS name FROM departments";
+    connection.query(query, (err, res) => {
+        if(err) throw err;
+        //push departments into an array
+        array = JSON.parse(JSON.stringify(res));
     //create array of questions
-        //what is name of role
-        //what is salary
-        //which department (choices are array from above)
-        //Is it a manager role (true or false)
-    //prompt questions 
-    //then query that inserts role into database
-
-    //run init
+    const questions = [
+        {
+            type: "input",
+            name: "name",
+            message: "What is the name of the role you want to add?"
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "What is the salary of the role you want to add?"
+        },
+        {
+            type: "list",
+            name: "department",
+            message: "Which department do you want to add this role to?",
+            choices: array
+        },
+        {
+            type: "confirm",
+            name: "manager",
+            message: "Is this a manager role?"
+        },
+    ]
+    //prompt questions then query that inserts role into database
+    inquirer
+    .prompt(questions).then(function(answer) {
+        const query = "INSERT INTO roles (role_title, role_salary, department_id, manager) VALUES (?, ?, ?, ?)";
+        connection.query(query, [answer.name, answer.salary, answer.department, answer.manager], (err, res) => {
+            if (err) throw err;
+            if(res.affectedRows > 0) {
+                console.log(res.affectedRows + " department added successfully added!");
+            }
+            init();
+        });
+    });
+});
+}
+    
 
 //Add employee
     //prompt first name

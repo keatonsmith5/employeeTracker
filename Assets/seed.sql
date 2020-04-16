@@ -32,7 +32,7 @@ INSERT INTO employee_trackerDB.roles (role_id, role_title, role_salary, departme
 VALUES (7, "Sales Manager", 140000, 4, 1);
 
 INSERT INTO employee_trackerDB.roles (role_id, role_title, role_salary, department_id, manager)
-VALUES (8, "Sales Manager", 60000, 4, 0);
+VALUES (8, "Sales Rep", 60000, 4, 0);
 
 
 INSERT INTO employee_trackerDB.employees (employee_id, first_name, last_name, role_id, manager_id)
