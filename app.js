@@ -232,19 +232,62 @@ function addRole() {
 });
 }
     
-
 //Add employee
-    //prompt first name
-    //prompt last name
+function addEmployee() {
+    //prompt name
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "firstName",
+            message: "What is the employee's first name?"
+        },
+        {
+            type: "input",
+            name: "lastName",
+            message: "What is the employee's last name?"
+        }
     //then query for roles
-    //push roles into array
-    //then prompt role. choices are array
-    //then query all managers
-    //create another array for managers
-    //prompt choose manager. choices are the array
-    //then query that inserte employee into database
-
-    //run init
+    ]).then(function(answer) {
+        let query = "SELECT role_id AS value, role_title AS name FROM roles WHERE manager = 0";
+        connection.query(query, (err, res) => {
+            if(err) throw err;
+            //push roles into array
+            let array = JSON.parse(JSON.stringify(res));
+            //then prompt role. choices are array
+            inquirer.prompt({
+                type: "list",
+                name: "role",
+                message: "What is the role of this employee?",
+                choices: array
+            //then query all managers
+            }).then(function(answer2) {
+                let query = "SELECT employees.employee_id AS value, CONCAT(employees.first_name, ' ', employees.last_name) AS name FROM employees INNER JOIN roles ON employees.role_id = roles.role_id WHERE roles.manager = 1";
+                connection.query(query, (err, res) => {
+                    if(err) throw err;
+                    //push managers into array
+                    let array = JSON.parse(JSON.stringify(res));
+                    //then prompt manager. choices are array
+                    inquirer.prompt({
+                        type: "list",
+                        name: "manager",
+                        message: "Who manages this employee?",
+                        choices: array
+                    }).then(function(answer3) {
+                        const query = "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+                        connection.query(query, [answer.firstName, answer.lastName, answer2.role, answer3.manager], (err, res) => {
+                            if (err) throw err;
+                            if(res.affectedRows > 0) {
+                            console.log(res.affectedRows + " department added successfully added!");
+                            }
+                            init();
+                        });
+                    })
+                }); 
+            });
+        }); 
+    });      
+}
 
 
 
